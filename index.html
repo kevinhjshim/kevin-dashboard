@@ -433,11 +433,8 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
                 <div class="ring-status" id="ring-status"></div>
               </div>
             </div>
-            <div class="ring-input-row">
-              <span class="text-dim text-sm">Score:</span>
-              <input type="number" id="recovery-input" min="0" max="100" placeholder="0–100">
-              <button class="btn btn-sm btn-green" onclick="setRecovery()">Set</button>
-            </div>
+            <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:4px">Auto-calculated from your biometrics below</div>
+            <div id="recovery-breakdown" style="font-size:11px;color:var(--t3);text-align:center;margin-top:4px;line-height:1.8"></div>
           </div>
         </div>
       </div>
@@ -465,12 +462,12 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
       <div class="sec">
         <div class="sec-label"><span class="dot"></span>Biometrics</div>
         <div class="stats-grid">
-          <div class="stat-cell"><div class="stat-lbl">Sleep %</div><div class="row" style="gap:6px;align-items:baseline"><div class="stat-val" id="hv-sleep">–</div><input type="number" id="in-sleep" placeholder="82" style="width:52px;font-size:12px;padding:3px 6px" oninput="saveHealth('sleepPct',this.value);$('hv-sleep').textContent=this.value||'–'"></div></div>
-          <div class="stat-cell"><div class="stat-lbl"><span class="stat-dot" style="background:#22c55e"></span>Strain</div><div class="row" style="gap:6px;align-items:baseline"><div class="stat-val" id="hv-strain">–</div><input type="number" id="in-strain" placeholder="13.3" step="0.1" style="width:52px;font-size:12px;padding:3px 6px" oninput="saveHealth('strain',this.value);$('hv-strain').textContent=this.value||'–'"></div></div>
-          <div class="stat-cell"><div class="stat-lbl"><span class="stat-dot" style="background:#22c55e"></span>HRV</div><div class="row" style="gap:6px;align-items:baseline"><div class="stat-val" id="hv-hrv">–</div><input type="number" id="in-hrv" placeholder="115" style="width:52px;font-size:12px;padding:3px 6px" oninput="saveHealth('hrv',this.value);$('hv-hrv').textContent=this.value||'–'"><span class="text-dim text-sm">ms</span></div></div>
-          <div class="stat-cell"><div class="stat-lbl"><span class="stat-dot" style="background:#22c55e"></span>RHR</div><div class="row" style="gap:6px;align-items:baseline"><div class="stat-val" id="hv-rhr">–</div><input type="number" id="in-rhr" placeholder="45" style="width:52px;font-size:12px;padding:3px 6px" oninput="saveHealth('rhr',this.value);$('hv-rhr').textContent=this.value||'–'"><span class="text-dim text-sm">bpm</span></div></div>
-          <div class="stat-cell"><div class="stat-lbl">Blood O₂</div><div class="row" style="gap:6px;align-items:baseline"><div class="stat-val" id="hv-bo2">–</div><input type="number" id="in-bo2" placeholder="95.3" step="0.1" style="width:52px;font-size:12px;padding:3px 6px" oninput="saveHealth('bloodO2',this.value);$('hv-bo2').textContent=this.value||'–'"><span class="text-dim text-sm">%</span></div></div>
-          <div class="stat-cell"><div class="stat-lbl">Resp Rate</div><div class="row" style="gap:6px;align-items:baseline"><div class="stat-val" id="hv-resp">–</div><input type="number" id="in-resp" placeholder="13.7" step="0.1" style="width:52px;font-size:12px;padding:3px 6px" oninput="saveHealth('respRate',this.value);$('hv-resp').textContent=this.value||'–'"><span class="text-dim text-sm">br/m</span></div></div>
+          <div class="stat-cell"><div class="stat-lbl">Sleep %</div><div class="row" style="gap:6px;align-items:baseline"><div class="stat-val" id="hv-sleep">–</div><input type="number" id="in-sleep" placeholder="82" style="width:52px;font-size:12px;padding:3px 6px" oninput="saveHealth('sleepPct',this.value);$('hv-sleep').textContent=this.value||'–';calcRecovery()"></div></div>
+          <div class="stat-cell"><div class="stat-lbl"><span class="stat-dot" style="background:#22c55e"></span>Strain</div><div class="row" style="gap:6px;align-items:baseline"><div class="stat-val" id="hv-strain">–</div><input type="number" id="in-strain" placeholder="13.3" step="0.1" style="width:52px;font-size:12px;padding:3px 6px" oninput="saveHealth('strain',this.value);$('hv-strain').textContent=this.value||'–';calcRecovery()"></div></div>
+          <div class="stat-cell"><div class="stat-lbl"><span class="stat-dot" style="background:#22c55e"></span>HRV</div><div class="row" style="gap:6px;align-items:baseline"><div class="stat-val" id="hv-hrv">–</div><input type="number" id="in-hrv" placeholder="115" style="width:52px;font-size:12px;padding:3px 6px" oninput="saveHealth('hrv',this.value);$('hv-hrv').textContent=this.value||'–';calcRecovery()"><span class="text-dim text-sm">ms</span></div></div>
+          <div class="stat-cell"><div class="stat-lbl"><span class="stat-dot" style="background:#22c55e"></span>RHR</div><div class="row" style="gap:6px;align-items:baseline"><div class="stat-val" id="hv-rhr">–</div><input type="number" id="in-rhr" placeholder="45" style="width:52px;font-size:12px;padding:3px 6px" oninput="saveHealth('rhr',this.value);$('hv-rhr').textContent=this.value||'–';calcRecovery()"><span class="text-dim text-sm">bpm</span></div></div>
+          <div class="stat-cell"><div class="stat-lbl">Blood O₂</div><div class="row" style="gap:6px;align-items:baseline"><div class="stat-val" id="hv-bo2">–</div><input type="number" id="in-bo2" placeholder="95.3" step="0.1" style="width:52px;font-size:12px;padding:3px 6px" oninput="saveHealth('bloodO2',this.value);$('hv-bo2').textContent=this.value||'–';calcRecovery()"><span class="text-dim text-sm">%</span></div></div>
+          <div class="stat-cell"><div class="stat-lbl">Resp Rate</div><div class="row" style="gap:6px;align-items:baseline"><div class="stat-val" id="hv-resp">–</div><input type="number" id="in-resp" placeholder="13.7" step="0.1" style="width:52px;font-size:12px;padding:3px 6px" oninput="saveHealth('respRate',this.value);$('hv-resp').textContent=this.value||'–';calcRecovery()"><span class="text-dim text-sm">br/m</span></div></div>
         </div>
       </div>
 
@@ -600,15 +597,40 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
           <div class="fin-cell"><div class="fin-lbl">Income</div><div class="fin-amount pos" id="fin-income-total">$0</div></div>
           <div class="fin-cell"><div class="fin-lbl">Expenses</div><div class="fin-amount neg" id="fin-expense-total">$0</div></div>
           <div class="fin-cell"><div class="fin-lbl">Net</div><div class="fin-amount net-pos" id="fin-net-total">$0</div></div>
+          <div class="fin-cell" style="grid-column:1/-1;background:var(--bg2)"><div class="fin-lbl">Savings Rate</div><div class="fin-amount" id="fin-savings-rate" style="color:var(--green)">–</div></div>
         </div>
       </div>
 
       <div class="sec">
-        <div class="sec-label"><span class="dot"></span>Income</div>
+        <div class="sec-label"><span class="dot"></span>Recurring Income <span class="text-dim text-sm" style="margin-left:4px">· every month</span></div>
+        <div class="card">
+          <div id="recurring-income-list"></div>
+          <div class="fin-add-row">
+            <input type="text" id="rec-income-label" placeholder="Source (e.g. Salary)">
+            <input type="number" class="amt" id="rec-income-amount" placeholder="Amount">
+            <button class="btn btn-sm btn-green" onclick="addRecurring('income')">Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-label"><span class="dot dot-red"></span>Recurring Expenses <span class="text-dim text-sm" style="margin-left:4px">· every month</span></div>
+        <div class="card">
+          <div id="recurring-expense-list"></div>
+          <div class="fin-add-row">
+            <input type="text" id="rec-expense-label" placeholder="Category (e.g. Rent)">
+            <input type="number" class="amt" id="rec-expense-amount" placeholder="Amount">
+            <button class="btn btn-sm" style="background:rgba(239,68,68,.15);border-color:var(--red);color:var(--red)" onclick="addRecurring('expense')">Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-label"><span class="dot"></span>This Month — Extra Income</div>
         <div class="card">
           <div id="income-list"></div>
           <div class="fin-add-row">
-            <input type="text" id="income-label-input" placeholder="Source (e.g. Salary)">
+            <input type="text" id="income-label-input" placeholder="One-time source">
             <input type="number" class="amt" id="income-amount-input" placeholder="Amount">
             <button class="btn btn-sm btn-green" onclick="addFinEntry('income')">Add</button>
           </div>
@@ -616,11 +638,11 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
       </div>
 
       <div class="sec">
-        <div class="sec-label"><span class="dot dot-red"></span>Expenses</div>
+        <div class="sec-label"><span class="dot dot-red"></span>This Month — Extra Expenses</div>
         <div class="card">
           <div id="expense-list"></div>
           <div class="fin-add-row">
-            <input type="text" id="expense-label-input" placeholder="Category (e.g. Rent)">
+            <input type="text" id="expense-label-input" placeholder="One-time expense">
             <input type="number" class="amt" id="expense-amount-input" placeholder="Amount">
             <button class="btn btn-sm" style="background:rgba(239,68,68,.15);border-color:var(--red);color:var(--red)" onclick="addFinEntry('expense')">Add</button>
           </div>
@@ -834,7 +856,7 @@ function initUI() {
       const map={total:'sleepTotal',rem:'rem',deep:'deep',light:'light'};
       const k = id.replace('sleep-','');
       day().health[map[k]] = e.target.value;
-      save(); updateSleepBar();
+      save(); updateSleepBar(); calcRecovery();
     });
   });
 
@@ -1044,7 +1066,6 @@ function renderWater() {
 function renderHealth() {
   const h = day().health||{};
   if(h.recovery!=null) applyRecovery(h.recovery);
-  $('recovery-input').value = h.recovery||'';
   $('sleep-total').value    = h.sleepTotal||'';
   $('sleep-rem').value      = h.rem||'';
   $('sleep-deep').value     = h.deep||'';
@@ -1055,10 +1076,73 @@ function renderHealth() {
     if(disp) disp.textContent=h[k]||'–';
   });
   updateSleepBar();
+  calcRecovery();
   renderRoutine('morning');
   renderRoutine('night');
 }
-function setRecovery(){ const v=parseInt($('recovery-input').value);if(isNaN(v)||v<0||v>100)return;day().health.recovery=v;save();applyRecovery(v); }
+function parseSleepHrs(s){ const m=(s||'').match(/(\d+)h\s*(\d*)m?/i);return m?parseInt(m[1])+(parseInt(m[2])||0)/60:0; }
+
+function calcRecovery(){
+  const h = day().health||{};
+  const hrv      = parseFloat(h.hrv);
+  const rhr      = parseFloat(h.rhr);
+  const sleepPct = parseFloat(h.sleepPct);
+  const strain   = parseFloat(h.strain);
+  const bloodO2  = parseFloat(h.bloodO2);
+  const respRate = parseFloat(h.respRate);
+  const sleepHrs = parseSleepHrs(h.sleepTotal||'');
+
+  const parts = [];
+
+  // HRV — 35% weight. 20ms=0, 100ms=100
+  if(!isNaN(hrv) && hrv>0){
+    const s = Math.min(100,Math.max(0,(hrv-20)/80*100));
+    parts.push({label:'HRV',score:s,w:0.35,icon:hrv>=80?'🟢':hrv>=50?'🟡':'🔴'});
+  }
+  // RHR — 25% weight. 40bpm=100, 80bpm=0
+  if(!isNaN(rhr) && rhr>0){
+    const s = Math.min(100,Math.max(0,(80-rhr)/40*100));
+    parts.push({label:'RHR',score:s,w:0.25,icon:rhr<=55?'🟢':rhr<=65?'🟡':'🔴'});
+  }
+  // Sleep % — 15% weight. 60%=0, 100%=100
+  if(!isNaN(sleepPct) && sleepPct>0){
+    const s = Math.min(100,Math.max(0,(sleepPct-60)/40*100));
+    parts.push({label:'Sleep quality',score:s,w:0.15,icon:sleepPct>=85?'🟢':sleepPct>=70?'🟡':'🔴'});
+  }
+  // Sleep duration — 15% weight
+  if(sleepHrs>0){
+    const s = sleepHrs>=7&&sleepHrs<=9?100:sleepHrs>=6?70:sleepHrs>=5?40:15;
+    parts.push({label:'Sleep duration',score:s,w:0.15,icon:sleepHrs>=7?'🟢':sleepHrs>=6?'🟡':'🔴'});
+  }
+  // Blood O2 — 5% weight. 90%=0, 100%=100
+  if(!isNaN(bloodO2) && bloodO2>0){
+    const s = Math.min(100,Math.max(0,(bloodO2-90)/10*100));
+    parts.push({label:'Blood O₂',score:s,w:0.05,icon:bloodO2>=95?'🟢':'🔴'});
+  }
+  // Resp rate — 5% weight. 12-16=100, else drops off
+  if(!isNaN(respRate) && respRate>0){
+    const s = respRate>=12&&respRate<=16?100:respRate>=10&&respRate<=20?65:30;
+    parts.push({label:'Resp rate',score:s,w:0.05,icon:respRate>=12&&respRate<=16?'🟢':'🟡'});
+  }
+  // Strain penalty — high strain from yesterday reduces recovery
+  if(!isNaN(strain) && strain>0){
+    const penalty = Math.min(15, strain/21*15);
+    parts.forEach(p=>p.score=Math.max(0,p.score-penalty));
+  }
+
+  if(!parts.length) return;
+
+  const totalW = parts.reduce((s,p)=>s+p.w,0);
+  const score  = Math.round(parts.reduce((s,p)=>s+p.score*p.w,0)/totalW);
+
+  day().health.recovery = score;
+  save();
+  applyRecovery(score);
+
+  // Show breakdown
+  const bd = $('recovery-breakdown');
+  if(bd) bd.innerHTML = parts.map(p=>`${p.icon} ${p.label}: ${Math.round(p.score)}`).join(' &nbsp;·&nbsp; ');
+}
 function applyRecovery(score){
   const arc=$('ring-arc'), c=364.42;
   arc.style.strokeDashoffset=c*(1-score/100);
@@ -1179,8 +1263,9 @@ function drawSparkline(data){
 
 // ── MONEY TAB ────────────────────────────────────────────
 function ensureFinMonth(){
-  if(!D.config.finances)D.config.finances={};
-  if(!D.config.finances[currentFinMonth])D.config.finances[currentFinMonth]={income:[],expenses:[],notes:''};
+  if(!D.config.finances)   D.config.finances={};
+  if(!D.config.recurring)  D.config.recurring={income:[],expenses:[]};
+  if(!D.config.finances[currentFinMonth]) D.config.finances[currentFinMonth]={income:[],expenses:[],notes:''};
 }
 function renderMoney(){
   ensureFinMonth();
@@ -1188,24 +1273,49 @@ function renderMoney(){
   const [y,m]=currentFinMonth.split('-');
   $('fin-month-label').textContent=`${mos[parseInt(m)-1]} ${y}`;
   const fin=D.config.finances[currentFinMonth];
-  const totalIn=(fin.income||[]).reduce((s,x)=>s+parseFloat(x.amount||0),0);
-  const totalEx=(fin.expenses||[]).reduce((s,x)=>s+parseFloat(x.amount||0),0);
-  const net=totalIn-totalEx;
-  $('fin-income-total').textContent=fmt$(totalIn);
-  $('fin-expense-total').textContent='-'+fmt$(totalEx);
-  const netEl=$('fin-net-total');netEl.textContent=(net>=0?'+':'')+fmt$(net);
+  const rec=D.config.recurring;
+
+  const recIn  = (rec.income||[]).reduce((s,x)=>s+parseFloat(x.amount||0),0);
+  const recEx  = (rec.expenses||[]).reduce((s,x)=>s+parseFloat(x.amount||0),0);
+  const extraIn= (fin.income||[]).reduce((s,x)=>s+parseFloat(x.amount||0),0);
+  const extraEx= (fin.expenses||[]).reduce((s,x)=>s+parseFloat(x.amount||0),0);
+  const totalIn= recIn+extraIn;
+  const totalEx= recEx+extraEx;
+  const net    = totalIn-totalEx;
+  const savRate= totalIn>0?Math.round((net/totalIn)*100):0;
+
+  $('fin-income-total').textContent  = fmt$(totalIn);
+  $('fin-expense-total').textContent = '-'+fmt$(totalEx);
+  const netEl=$('fin-net-total');
+  netEl.textContent=(net>=0?'+':'')+fmt$(net);
   netEl.className='fin-amount '+(net>0?'pos':net<0?'neg':'net-pos');
+  const srEl=$('fin-savings-rate');
+  srEl.textContent=totalIn>0?`${savRate}% saved`:'–';
+  srEl.style.color=savRate>=20?'var(--green)':savRate>=0?'var(--orange)':'var(--red)';
+
+  // Recurring lists
+  $('recurring-income-list').innerHTML=(rec.income||[]).map((e,i)=>
+    `<div class="fin-entry"><div class="fin-entry-label">${esc(e.label)}</div><div class="fin-entry-amount pos">+${fmt$(e.amount)}/mo</div><div class="fin-entry-del" onclick="deleteRecurring('income',${i})">×</div></div>`
+  ).join('')||'<div class="text-dim text-sm" style="padding:4px 0">No recurring income yet.</div>';
+  $('recurring-expense-list').innerHTML=(rec.expenses||[]).map((e,i)=>
+    `<div class="fin-entry"><div class="fin-entry-label">${esc(e.label)}</div><div class="fin-entry-amount neg">-${fmt$(e.amount)}/mo</div><div class="fin-entry-del" onclick="deleteRecurring('expense',${i})">×</div></div>`
+  ).join('')||'<div class="text-dim text-sm" style="padding:4px 0">No recurring expenses yet.</div>';
+
+  // One-time lists
   $('income-list').innerHTML=(fin.income||[]).map((e,i)=>
     `<div class="fin-entry"><div class="fin-entry-label">${esc(e.label)}</div><div class="fin-entry-amount pos">+${fmt$(e.amount)}</div><div class="fin-entry-del" onclick="deleteFinEntry('income',${i})">×</div></div>`
-  ).join('')||'<div class="text-dim text-sm" style="padding:4px 0">No income entries.</div>';
+  ).join('')||'<div class="text-dim text-sm" style="padding:4px 0">None this month.</div>';
   $('expense-list').innerHTML=(fin.expenses||[]).map((e,i)=>
     `<div class="fin-entry"><div class="fin-entry-label">${esc(e.label)}</div><div class="fin-entry-amount neg">-${fmt$(e.amount)}</div><div class="fin-entry-del" onclick="deleteFinEntry('expense',${i})">×</div></div>`
-  ).join('')||'<div class="text-dim text-sm" style="padding:4px 0">No expenses yet.</div>';
+  ).join('')||'<div class="text-dim text-sm" style="padding:4px 0">None this month.</div>';
+
   $('fin-notes').value=fin.notes||'';
 }
 function changeMonth(d){ const [y,m]=currentFinMonth.split('-').map(Number);const dt=new Date(y,m-1+d,1);currentFinMonth=dt.toISOString().slice(0,7);renderMoney(); }
 function addFinEntry(type){ const l=$(`${type}-label-input`).value.trim(),a=parseFloat($(`${type}-amount-input`).value)||0;if(!l||!a)return;ensureFinMonth();D.config.finances[currentFinMonth][type].push({label:l,amount:a});$(`${type}-label-input`).value='';$(`${type}-amount-input`).value='';save();renderMoney(); }
 function deleteFinEntry(type,i){ D.config.finances[currentFinMonth][type].splice(i,1);save();renderMoney(); }
+function addRecurring(type){ const l=$(`rec-${type}-label`).value.trim(),a=parseFloat($(`rec-${type}-amount`).value)||0;if(!l||!a)return;if(!D.config.recurring)D.config.recurring={income:[],expenses:[]};D.config.recurring[type].push({label:l,amount:a});$(`rec-${type}-label`).value='';$(`rec-${type}-amount`).value='';save();renderMoney(); }
+function deleteRecurring(type,i){ D.config.recurring[type].splice(i,1);save();renderMoney(); }
 </script>
 </body>
 </html>
